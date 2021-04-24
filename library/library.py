@@ -351,10 +351,6 @@ def factorization(n):
     return arr
 
 a = factorization(n)
-A からスタートして、D を足していくとき、個数 mod B の最大は，g = gcd(B, D) として B−g+(A mod g)
-となり，これを C と比較すればよいです。個数 mod g が常に一定であることを考えるとこれが上界であるこ
-とは言え、また，(B/g − 1) × inv(D/g, B/g) 回 D を足したときにこの上界が達成できます (inv(X, Y ) は，
-X × inv = 1 mod Y なる値とします)。
 
 
 
@@ -364,3 +360,26 @@ def compress(arr):
     XS.sort()
     return {e: i for i, e in enumerate(XS)}
 compress3 = lambda arr: list(map({e: i for i, e in enumerate(sorted(set(arr)))}.__getitem__, arr))
+
+
+#木の直径
+def tree_diameter(g):
+    d = [0]*(n+1)
+    q = [1]
+    while q:
+        now = q.pop()
+        for next in g[now]:
+            if d[next] == 0:
+                d[next] = d[now] + 1
+                q.append(next)
+
+    u = d.index(max(d))
+    d = [0]*(n+1)
+    q = [u]
+    while q:
+        now = q.pop()
+        for next in g[now]:
+            if d[next] == 0:
+                d[next] = d[now] + 1
+                q.append(next)
+    return max(d)
