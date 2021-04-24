@@ -364,22 +364,25 @@ compress3 = lambda arr: list(map({e: i for i, e in enumerate(sorted(set(arr)))}.
 
 #木の直径
 def tree_diameter(g):
-    d = [0]*(n+1)
-    q = [1]
+    d = [-1]*(n+1)
+    q = deque([1])
+    d[1] = 0
     while q:
-        now = q.pop()
+        now = q.popleft()
         for next in g[now]:
-            if d[next] == 0:
+            if d[next] == -1:
                 d[next] = d[now] + 1
                 q.append(next)
 
     u = d.index(max(d))
-    d = [0]*(n+1)
-    q = [u]
+    d = [-1]*(n+1)
+    q = deque([u])
+    d[u] = 0
     while q:
-        now = q.pop()
+        now = q.popleft()
         for next in g[now]:
-            if d[next] == 0:
+            if d[next] == -1:
                 d[next] = d[now] + 1
                 q.append(next)
-    return max(d)
+
+    print(max(d)+1)
